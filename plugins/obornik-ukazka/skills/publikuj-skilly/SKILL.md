@@ -16,7 +16,7 @@ Sdílené skilly se berou z GitHubu. Dokud se změna nenahraje, Claude ani ChatG
    bash "<složka tohoto skillu>/scripts/publikuj.sh" "<cesta k repu>" "Přidán skill tydenni-report"
    ```
 
-   Skript stáhne případné změny z GitHubu, zvýší verzi pluginů, ve kterých se něco změnilo, ověří marketplace, udělá commit a nahraje ho na GitHub.
+   Skript stáhne případné změny z GitHubu, sestaví fyzický payload ze zdroje `.agents/plugins/`, zvýší verzi pluginů, ve kterých se něco změnilo, ověří marketplace, udělá commit a nahraje ho na GitHub.
 3. Když skript skončí chybou, přečti hlášku a vysvětli ji uživateli lidsky. Nic nepřepisuj silou (žádné `--force`).
 
 ## Po publikování řekni uživateli

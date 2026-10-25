@@ -31,13 +31,13 @@ Když znaky nejsou jednoznačné, doporuč projektový. Na sdílený jde povýš
 
 **Kam ho uložit:**
 - **Projektový:** `<kořen projektu>/.agents/skills/<nazev>/SKILL.md`
-- **Sdílený:** v repu marketplace (cesta je v `AGENTS.md` projektu, sekce Skilly) do `plugins/obornik-ukazka/skills/<nazev>/SKILL.md`
+- **Sdílený:** v repu marketplace (cesta je v `AGENTS.md` projektu, sekce Skilly) do `.agents/plugins/obornik-ukazka/skills/<nazev>/SKILL.md`
 
-Nikdy neukládej skill do `~/.claude/skills`, `~/.codex/skills`, `~/.agents/skills`, přímo do `.claude/skills` ani do nastavení účtu Claude nebo ChatGPT. Složka `.claude/skills` v projektu je jen odkaz na `.agents/skills`.
+Nikdy neukládej skill do `~/.claude/skills`, `~/.codex/skills`, `~/.agents/skills`, přímo do `.claude/skills` ani do nastavení účtu Claude nebo ChatGPT. V `.claude/skills/<nazev>` je jednotlivý relativní symlink na `../../.agents/skills/<nazev>`. Upravuj cíl odkazu, ne symlink.
 
 ## 2. Zkontroluj, jestli už neexistuje
 
-Podívej se do `.agents/skills/` v projektu a do `plugins/obornik-ukazka/skills/` v repu marketplace, jestli tam už skill se stejným nebo podobným účelem není. Když ano, uprav ten existující, nevytvářej druhý.
+Podívej se do `.agents/skills/` v projektu a do `.agents/plugins/obornik-ukazka/skills/` v repu marketplace, jestli tam už skill se stejným nebo podobným účelem není. Když ano, uprav ten existující, nevytvářej druhý.
 
 - **Převzetí z jiného projektu:** zkopíruj skill sem a uprav ho pro tento projekt. Neodkazuj na cizí složku, projekty mají zůstat nezávislé.
 - **Povýšení projektového na sdílený:** skill přesuň (ne zkopíruj) do repa marketplace, aby v projektu nezůstala druhá kopie. Když má stejný skill i jiný projekt, upozorni na to uživatele a navrhni sjednocení.
@@ -45,7 +45,7 @@ Podívej se do `.agents/skills/` v projektu a do `plugins/obornik-ukazka/skills/
 ## 3. Napiš SKILL.md
 
 - **Název složky i `name`:** malá písmena, číslice a pomlčky, bez diakritiky, nejvýš 64 znaků (např. `tydenni-report`).
-- **Hlavička:** jen `name` a `description`. Jiná pole nepoužívej, ChatGPT/Codex je ignoruje a skill musí fungovat v obou.
+- **Hlavička:** standardně `name` a `description`. Volitelná pole zachovej jen s ověřenou podporou a popisem klientských rozdílů; Claude model, oprávnění nebo izolace se do Codexu automaticky nepřenášejí.
 - **`description`:** co skill dělá a kdy se má použít, včetně typických frází uživatele. Podle ní AI pozná, že má skill spustit.
 - **Tělo:** postup v krocích, co je vstup, jak má vypadat výstup, případně krátký příklad. Česky, stručně, bez vaty.
 - **Pomocné soubory** (šablony, skripty, ukázky) dej do stejné složky vedle `SKILL.md` a odkazuj na ně relativní cestou.
@@ -66,6 +66,8 @@ description: Co skill dělá. Použij, když uživatel ...
 ## Výstup
 ...
 ```
+
+Po založení projektového skillu vytvoř jednotlivý symlink `.claude/skills/<nazev> -> ../../.agents/skills/<nazev>`. Nové instrukce piš jen do `AGENTS.md`, ne do `CLAUDE.md`. Sdílený plugin po úpravě přegeneruj příkazem `python3 .agents/scripts/build-plugins.py`; adresář `plugins/` je výstup pro distribuci.
 
 ## 4. Dokonči
 

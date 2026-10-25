@@ -9,13 +9,14 @@ Firemní Google Drive                    Osobní Google Drive
 AI/firma/                               AI/osobni/
 ├── AGENTS.md          instrukce pro Claude i ChatGPT
 ├── .agents/skills/    skilly jen pro tento projekt
-├── .claude/skills     odkaz na .agents/skills (neupravovat)
+├── .claude/skills/<nazev>  jednotlivé odkazy na .agents/skills/<nazev> (neupravovat)
 ├── .claude/settings.json   napojení na tento marketplace (Claude)
 └── .codex/config.toml      napojení na tento marketplace (ChatGPT/Codex)
 
 Tento počítač + GitHub
 ~/AI/ukazkovy-marketplace/  tohle repo = sdílené skilly
-└── plugins/obornik-ukazka/skills/<nazev>/SKILL.md
+├── .agents/plugins/obornik-ukazka/skills/<nazev>/SKILL.md  zdroj
+└── plugins/obornik-ukazka/skills/<nazev>/SKILL.md          generovaný payload
 ```
 
 Pravidlo: **každý skill žije přesně na jednom místě.** Buď ve složce projektu (`.agents/skills`), nebo tady. Nikde jinde, ani v nastavení účtu Claude nebo ChatGPT.
@@ -53,3 +54,7 @@ Volání: v Claude `/obornik-ukazka:nazev`, v ChatGPT/Codexu `$obornik-ukazka:na
 - Ve složkách projektů nesmí být soubor `CLAUDE.md`, jinak Claude přestane číst `AGENTS.md`.
 - Tohle repo nepatří na Google Drive (Git a Drive se nesnesou), leží jen na počítači a na GitHubu.
 - Nové zařízení: nainstalovat `gh`, přihlásit se (`gh auth login`, pak `gh auth setup-git`) a projekty otevřít v Claude i Codexu jako důvěryhodné.
+
+## Úpravy zdrojů a sestavení
+
+Zdroj sdíleného pluginu je `.agents/plugins/obornik-ukazka/`. Po úpravě spusť `python3 .agents/scripts/build-plugins.py`; kontrola beze změn je `python3 .agents/scripts/build-plugins.py --check`. Adresář `plugins/` obsahuje kompletní fyzický payload pro instalaci, nepřepisuj ho ručně. Manifest `.claude-plugin/marketplace.json` zůstává nativním vstupem marketplace. Instrukce pro úpravy repa jsou v `AGENTS.md`.

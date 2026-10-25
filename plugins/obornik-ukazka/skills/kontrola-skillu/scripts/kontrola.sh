@@ -47,19 +47,23 @@ done
 echo
 echo "2) Projektové skilly"
 ODKAZ="$PROJEKT/.claude/skills"
-if [ -L "$ODKAZ" ]; then
-  CIL="$(readlink "$ODKAZ")"
-  if [ "$CIL" != "../.agents/skills" ]; then
-    pozor ".claude/skills ukazuje na $CIL, má ukazovat na ../.agents/skills"
-  elif [ ! -d "$ODKAZ" ]; then
-    pozor "odkaz .claude/skills nikam nevede (chybí složka .agents/skills)"
-  else
-    ok ".claude/skills je odkaz na .agents/skills (Claude i ChatGPT/Codex vidí stejné skilly)"
-  fi
-elif [ -d "$ODKAZ" ]; then
-  pozor ".claude/skills je obyčejná složka, ne odkaz, takže ChatGPT/Codex tyto skilly nevidí. Přesuň je do .agents/skills a v .claude vytvoř odkaz: ln -s ../.agents/skills skills"
+if [ -d "$ODKAZ" ]; then
+  for S in "$PROJEKT/.agents/skills"/*/; do
+    [ -f "$S/SKILL.md" ] || continue
+    JMENO="$(basename "$S")"
+    if [ -L "$ODKAZ/$JMENO" ] && [ "$(readlink "$ODKAZ/$JMENO")" = "../../.agents/skills/$JMENO" ] && [ "$(realna "$ODKAZ/$JMENO")" = "$(realna "$S")" ]; then
+      ok "$JMENO: Claude odkazuje na zdroj v .agents/skills"
+    else
+      pozor "$JMENO: chybí relativní symlink .claude/skills/$JMENO na ../../.agents/skills/$JMENO"
+    fi
+  done
+  for S in "$ODKAZ"/*/; do
+    [ -f "$S/SKILL.md" ] || continue
+    JMENO="$(basename "$S")"
+    [ "$(realna "$S")" = "$(realna "$PROJEKT/.agents/skills/$JMENO")" ] || pozor "$JMENO: samostatná kopie v .claude/skills"
+  done
 else
-  pozor "chybí odkaz .claude/skills, Claude nevidí projektové skilly. V .claude vytvoř odkaz: ln -s ../.agents/skills skills"
+  [ ! -d "$PROJEKT/.agents/skills" ] || pozor "chybí .claude/skills s jednotlivými symlinky"
 fi
 
 echo
@@ -86,6 +90,7 @@ pridej() {
   for S in "$SLOZKA"/*/; do
     [ -f "$S/SKILL.md" ] || continue
     JMENO="$(basename "$S")"
+    if [ "$ZDROJ" = "projekt-jen-claude" ] && [ "$(realna "$S")" = "$(realna "$PROJEKT/.agents/skills/$JMENO")" ]; then continue; fi
     if [ -n "$PREFIX" ]; then ID="plugin:$PREFIX$JMENO"; else ID="$(realna "$S")"; fi
     printf '%s\t%s\t%s\t%s\n' "$ZDROJ" "$PREFIX$JMENO" "$JMENO" "$ID" >> "$SEZNAM"
   done

@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    {
+      "source": "obornik-ukazka",
+      "destination": "plugins/obornik-ukazka"
+    }
+  ]
+}

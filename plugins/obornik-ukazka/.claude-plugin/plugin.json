@@ -1,7 +1,10 @@
 {
   "name": "obornik-ukazka",
   "displayName": "Sdílené skilly",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Skilly sdílené napříč všemi projekty. Obsahuje i správu skillů: nový skill, publikování a kontrolu.",
-  "author": { "name": "Filip Oborník", "url": "https://filipobornik.cz" }
+  "author": {
+    "name": "Filip Oborník",
+    "url": "https://filipobornik.cz"
+  }
 }
