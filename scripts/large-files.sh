@@ -69,9 +69,12 @@ if [[ -n "$problems" ]]; then
   echo "Velké soubory do gitu nepatří (AGENTS.md):" >&2
   printf '%s' "$problems" >&2
   cat >&2 <<EOF
-Soubor dej na Google Drive do DEEPLINK_SHOW/assets/$DRIVE_FOLDER/<cesta v repu> a do repa jen odkaz.
-Když do gitu opravdu patří, přidej se souhlasem člověka výjimku do .gitattributes, řádek
-„<cesta nebo vzor> large-file-ok“ (třeba „data/*.jsonl large-file-ok“).
+Je to upozornění, poraď si podle AGENTS.md. Podklady (fotky, videa, šablony, exporty) dej
+na Google Drive do DEEPLINK_SHOW/assets/$DRIVE_FOLDER/<cesta v repu> a do repa jen odkaz.
+Když soubor do gitu opravdu patří (data, která repo vydává nebo čte aplikace či build), navrhni
+člověku výjimku a řekni proč. Až ji potvrdí, přidej do .gitattributes řádek
+„<cesta nebo vzor> large-file-ok“ s komentářem proč, commitni ho spolu se souborem
+a výjimku zmiň v popisu commitu.
 Commit, který soubor přidal, oprav dřív, než ho pushneš: z historie na GitHubu ho dostane
 jen přepsání historie s force push.
 EOF
