@@ -1,0 +1,4 @@
+#!/bin/sh
+# Kontrola velkých souborů před commitem (AGENTS.md, Velké soubory do gitu nepatří).
+# Zapnutí jednou na klon: git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/scripts/large-files.sh" --staged
